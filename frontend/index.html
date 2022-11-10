@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I am Composer</title>
+</head>
+
+<body>
+    <canvas id="canvasElement">
+    </canvas>
+    <canvas id="input">
+    </canvas>
+    <div>
+        <ul id="all">
+            <li>do</li>
+            <li>re</li>
+            <li>me</li>
+            <li>fa</li>
+            <li>so</li>
+            <li>la</li>
+            <li>xi</li>
+        </ul>
+    </div>
+</body>
+
+<script type="text/javascript" src="./js/jquery.min.js"></script>
+<script type="text/javascript" src="./js/main.js"></script>
+<script type="text/javascript">
+    //鼠标按下事件
+    $('li').mousedown(function () {
+        //拼接路径
+        var src = "./assets/" + $(this).html().toLowerCase() + '.mp3';
+        //创建媒体对象
+        var audio = new Audio(src);
+        //调用play方法
+        audio.play();
+    });
+</script>
+
+<style>
+    li {
+        width: 5%;
+        height: 100%;
+        background: #fff;
+        float: left;
+        border-right: solid 2px black;
+        border-radius: 0px 0px 10px 10px;
+        text-align: center;
+        line-height: 35em;
+        margin: 0px;
+        padding: 0px;
+    }
+
+    #all {
+        border: solid 0px #333;
+        margin: 100px auto;
+    }
+</style>
+
+</html>
