@@ -9,11 +9,18 @@
 </head>
 
 <body>
-    <canvas id="canvasElement">
-    </canvas>
-    <canvas id="input">
-    </canvas>
-    <div>
+    <div class="canvas-container">
+        <canvas id="canvasElement">
+        </canvas>
+        <div class="score-container">
+            <div id="score">
+
+            </div>
+            <button onclick="playScore()">play</button>
+            <button onclick="cleanScore()">clean</button>
+        </div>
+    </div>
+    <div class="piano">
         <ul id="all">
             <li>do</li>
             <li>re</li>
@@ -24,25 +31,83 @@
             <li>xi</li>
         </ul>
     </div>
+    <div class="visual-container">
+        <div class="inner-container">
+            <div class="visualization" id="do"></div>
+            <div class="visualization" id="re"></div>
+            <div class="visualization" id="me"></div>
+            <div class="visualization" id="fa"></div>
+            <div class="visualization" id="so"></div>
+            <div class="visualization" id="la"></div>
+            <div class="visualization" id="xi"></div>
+        </div>
+    </div>
 </body>
 
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
-<script type="text/javascript">
+<script>
     //鼠标按下事件
     $('li').mousedown(function () {
-        //拼接路径
-        var src = "./assets/" + $(this).html().toLowerCase() + '.mp3';
-        //创建媒体对象
-        var audio = new Audio(src);
-        //调用play方法
-        audio.play();
+        play($(this).html().toLowerCase());
+        addRecord($(this).html().toLowerCase());
     });
 </script>
 
+<script>
+    function play(note) {
+        let src = "./assets/" + note + '.mp3';
+        let audio = new Audio(src);
+        $("#" + note).height(100);
+        audio.play();
+        setTimeout(() => {
+            $("#" + note).height(20);
+        }, 300);
+    }
+</script>
+
+<script>
+    var record = [];
+    function addRecord(note) {
+        let list = ['do', 're', 'me', 'fa', 'so', 'la', 'xi'];
+        record.push(list.indexOf(note) + 1);
+        let text = "";
+        for (let i = 0; i < record.length; i++) {
+            text += record[i] + " ";
+        }
+        document.getElementById("score").innerHTML = text;
+    }
+
+    async function playScore() {
+        for (let i = 0; i < record.length; i++) {
+            let list = ['do', 're', 'me', 'fa', 'so', 'la', 'xi'];
+            play(list[record[i] - 1]);
+            await sleep(300);
+        }
+    }
+
+    function sleep(time) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
+    function cleanScore() {
+        record = [];
+        document.getElementById("score").innerHTML = "";
+    }
+</script>
+
 <style>
+    .canvas-container {
+        display: flex;
+        width: 449;
+        height: 449;
+        flex-grow: 0;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
     li {
-        width: 5%;
+        width: 100px;
         height: 100%;
         background: #fff;
         float: left;
@@ -57,6 +122,39 @@
     #all {
         border: solid 0px #333;
         margin: 100px auto;
+    }
+
+    .visualization {
+        background-color: aqua;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        transition: 0.5s ease-in;
+        margin: 3px;
+    }
+
+    .piano {
+        display: flex;
+    }
+
+    .visual-container {
+        display: flex;
+        height: 100px;
+        flex-direction: column-reverse;
+        align-items: center;
+    }
+
+    .inner-container {
+        display: flex;
+        flex-direction: row;
+        height: 100px;
+        align-items: flex-end;
+    }
+
+    #score {
+        border: solid 1px black;
+        width: 300px;
+        height: 300px;
     }
 </style>
 

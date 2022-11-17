@@ -2,7 +2,7 @@
 class Main {
     constructor() {
         this.canvas = document.getElementById('canvasElement');
-        this.input = document.getElementById('input');
+        // this.input = document.getElementById('input');
         this.canvas.width  = 449; // 16 * 28 + 1
         this.canvas.height = 449; // 16 * 28 + 1
         this.ctx = this.canvas.getContext('2d');
@@ -65,38 +65,47 @@ class Main {
         };
     }
     drawInput() {
-        var ctx = this.input.getContext('2d');
+        // var ctx = this.input.getContext('2d');
         var img = new Image();
         img.onload = () => {
             var inputs = [];
             var small = document.createElement('canvas').getContext('2d');
             small.drawImage(img, 0, 0, img.width, img.height, 0, 0, 28, 28);
             var data = small.getImageData(0, 0, 28, 28).data;
-            console.log(data);
+            // console.log(data);
             for (var i = 0; i < 28; i++) {
                 for (var j = 0; j < 28; j++) {
                     var n = 4 * (i * 28 + j);
                     inputs[i * 28 + j] = 255 - (data[n + 0] + data[n + 1] + data[n + 2]) / 3;
-                    ctx.fillStyle = 'rgb(' + [data[n + 0], data[n + 1], data[n + 2]].join(',') + ')';
-                    ctx.fillRect(j * 5, i * 5, 5, 5);
+                    // ctx.fillStyle = 'rgb(' + [data[n + 0], data[n + 1], data[n + 2]].join(',') + ')';
+                    // ctx.fillRect(j * 5, i * 5, 5, 5);
                 }
             }
             if (Math.min(...inputs) === 255) {
                 return;
             }
-            console.log(inputs);
             $.ajax({
                 url: 'http://localhost:5000/predict',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(inputs),
                 success: (data) => {
-                    console.log(data);
-                    var src = "./assets/" + data + '.mp3';
-                    //创建媒体对象
-                    var audio = new Audio(src);
-                    //调用play方法
-                    audio.play();
+                    // console.log(data);
+                    let list = ['do', 're', 'me', 'fa', 'so', 'la', 'xi'];
+                    data = parseInt(data);
+                    if (data >= 1 && data <=7) {
+                        play(list[data - 1]);
+                        addRecord(list[data - 1]);
+                    }
+                    else {
+                        play("fa");
+                        addRecord("fa");
+                    }
+                    // var src = "./assets/" + data + '.mp3';
+                    // //创建媒体对象
+                    // var audio = new Audio(src);
+                    // //调用play方法
+                    // audio.play();
                 }
             });
         };
