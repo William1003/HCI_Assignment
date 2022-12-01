@@ -6,9 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I am Composer</title>
+
 </head>
 
 <body>
+    <script src="js/piano.js"></script>
+    <link href="css/piano.css" type="text/css" rel="stylesheet">
     <div class="canvas-container">
         <canvas id="canvasElement">
         </canvas>
@@ -20,16 +23,21 @@
             <button onclick="cleanScore()">clean</button>
         </div>
     </div>
-    <div class="piano">
-        <ul id="all">
-            <li>do</li>
-            <li>re</li>
-            <li>me</li>
-            <li>fa</li>
-            <li>so</li>
-            <li>la</li>
-            <li>xi</li>
-        </ul>
+    <div id="all">
+        <h1 style="width:100%;text-align:center;"></h1>
+
+        <!--主要代码-->
+        <div id="piano">
+            <div id="key60" class="key whiteKey">q<br>a<br>z</div>
+            <div id="key62" class="key whiteKey"><br>s<br>x</div>
+            <div id="key64" class="key whiteKey"><br>d<br>c</div>
+            <div id="key65" class="key whiteKey">r<br>f<br>v</div>
+            <div id="key67" class="key whiteKey"><br>g<br>b</div>
+            <div id="key69" class="key whiteKey"><br>h<br>n</div>
+            <div id="key71" class="key whiteKey"><br>j<br>m</div>
+            <div id="key72" class="key whiteKey">i<br>k<br>,</div>
+        </div>
+        <div id="comment"></div>
     </div>
     <div class="visual-container">
         <div class="inner-container">
@@ -60,13 +68,6 @@
 
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
-<script>
-    //鼠标按下事件
-    $('li').mousedown(function () {
-        play($(this).html().toLowerCase());
-        addRecord($(this).html().toLowerCase());
-    });
-</script>
 
 <script>
     function play(note) {
@@ -103,7 +104,8 @@
     async function playScore() {
         for (let i = 0; i < record.length; i++) {
             let list = ['do', 're', 'me', 'fa', 'so', 'la', 'xi'];
-            play(list[record[i] - 1]);
+            let key_list = ['60', '62', '64', '65', '67', '69', '71'];
+            playSound(key_list[record[i] - 1]);
             await sleep(300);
         }
     }
