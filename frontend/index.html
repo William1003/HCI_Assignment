@@ -23,6 +23,8 @@
             <button onclick="cleanScore()">clean</button>
         </div>
     </div>
+    <div id="osmdContainer"></div>
+
     <div id="all">
         <h1 style="width:100%;text-align:center;"></h1>
 
@@ -67,6 +69,34 @@
 
 <script type="text/javascript" src="./js/jquery.min.js"></script>
 <script type="text/javascript" src="./js/main.js"></script>
+<script src="js/opensheetmusicdisplay.min.js"></script>
+
+<!-- <script>
+    var s = "";
+    $.ajax({
+        url: 'http://localhost:5000/get_musicxml',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify([0]),
+        async: false,
+        success: (data) => {
+            s = data;
+        }
+    });
+    var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
+    osmd.setOptions({
+        backend: "svg",
+        drawTitle: true,
+        // drawingParameters: "compacttight" // don't display title, composer etc., smaller margins
+    });
+    osmd
+        .load("http://127.0.0.1:5501/frontend/assets/test3.xml")
+        .then(
+            function () {
+                osmd.render();
+            }
+        );
+</script> -->
 
 <script>
     function play(note) {
@@ -98,6 +128,42 @@
             text += record[i] + " ";
         }
         document.getElementById("score").innerHTML = text;
+        // 更新五线谱
+        var s = "";
+        $.ajax({
+            url: 'http://localhost:5000/get_musicxml',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(record),
+            success: (data) => {
+                var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
+                osmd.setOptions({
+                    backend: "svg",
+                    drawTitle: true,
+                    // drawingParameters: "compacttight" // don't display title, composer etc., smaller margins
+                });
+                osmd
+                    .load(data)
+                    .then(
+                        function () {
+                            osmd.render();
+                        }
+                    );
+            }
+        });
+        // var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
+        // osmd.setOptions({
+        //     backend: "svg",
+        //     drawTitle: true,
+        //     // drawingParameters: "compacttight" // don't display title, composer etc., smaller margins
+        // });
+        // osmd
+        //     .load(s)
+        //     .then(
+        //         function () {
+        //             osmd.render();
+        //         }
+        //     );
     }
 
     async function playScore() {
@@ -143,38 +209,8 @@
         background: #ff6e7f;
         /* fallback for old browsers */
         background: linear-gradient(to top, #ff6e7f, #bfe9ff);
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 
     }
-
-    /* #do {
-        background: linear-gradient(to right, #c0c0aa, #b1c5b2);
-    }
-
-    #re {
-        background: linear-gradient(to right, #b1c5b2, #9accbf);
-    }
-
-    #me {
-        background: linear-gradient(to right, #9accbf, #82d2cb);
-    }
-
-    #fa {
-        background: linear-gradient(to right, #82d2cb, #6ed7d4);
-    }
-
-    #so {
-        background: linear-gradient(to right, #6ed7d4, #5adddf);
-    }
-
-    #la {
-        background: linear-gradient(to right, #5adddf, #44e3ea);
-    }
-
-    #xi {
-        background: linear-gradient(to right, #44e3ea, #1cefff);
-    } */
 
     .piano {
         display: flex;
