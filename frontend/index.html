@@ -33,13 +33,27 @@
     </div>
     <div class="visual-container">
         <div class="inner-container">
-            <div class="visualization" id="do"></div>
-            <div class="visualization" id="re"></div>
-            <div class="visualization" id="me"></div>
-            <div class="visualization" id="fa"></div>
-            <div class="visualization" id="so"></div>
-            <div class="visualization" id="la"></div>
-            <div class="visualization" id="xi"></div>
+            <div class="visualization do"></div>
+            <div class="visualization do" id="do"></div>
+            <div class="visualization do"></div>
+            <div class="visualization re"></div>
+            <div class="visualization re" id="re"></div>
+            <div class="visualization re"></div>
+            <div class="visualization me"></div>
+            <div class="visualization me" id="me"></div>
+            <div class="visualization me"></div>
+            <div class="visualization fa"></div>
+            <div class="visualization fa" id="fa"></div>
+            <div class="visualization fa"></div>
+            <div class="visualization so"></div>
+            <div class="visualization so" id="so"></div>
+            <div class="visualization so"></div>
+            <div class="visualization la"></div>
+            <div class="visualization la" id="la"></div>
+            <div class="visualization la"></div>
+            <div class="visualization xi"></div>
+            <div class="visualization xi" id="xi"></div>
+            <div class="visualization xi"></div>
         </div>
     </div>
 </body>
@@ -58,10 +72,18 @@
     function play(note) {
         let src = "./assets/" + note + '.mp3';
         let audio = new Audio(src);
+        let list = ['do', 're', 'me', 'fa', 'so', 'la', 'xi'];
+        let index = list.indexOf(note);
+        // document.getElementsByClassName("box")[index].style.height = "100px";
         $("#" + note).height(100);
+        let noteList = document.getElementsByClassName(note);
+        $("." + note + ":first").height(100 * Math.random());
+        $("." + note + ":eq(2)").height(100 * Math.random());
         audio.play();
         setTimeout(() => {
-            $("#" + note).height(20);
+            // document.getElementsByClassName("box")[index].style.height = "5px";
+            $("." + note).height(5);
+            let noteList = document.getElementsByClassName(note);
         }, 300);
     }
 </script>
@@ -125,13 +147,46 @@
     }
 
     .visualization {
-        background-color: aqua;
-        width: 20px;
-        height: 20px;
-        display: flex;
-        transition: 0.5s ease-in;
-        margin: 3px;
+        height: 5px;
+        border-radius: 2px;
+        width: 50px;
+        transition: 0.8s ease-out;
+        margin: 1px;
+        background: #ff6e7f;
+        /* fallback for old browsers */
+        background: linear-gradient(to top, #ff6e7f, #bfe9ff);
+        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
     }
+
+    /* #do {
+        background: linear-gradient(to right, #c0c0aa, #b1c5b2);
+    }
+
+    #re {
+        background: linear-gradient(to right, #b1c5b2, #9accbf);
+    }
+
+    #me {
+        background: linear-gradient(to right, #9accbf, #82d2cb);
+    }
+
+    #fa {
+        background: linear-gradient(to right, #82d2cb, #6ed7d4);
+    }
+
+    #so {
+        background: linear-gradient(to right, #6ed7d4, #5adddf);
+    }
+
+    #la {
+        background: linear-gradient(to right, #5adddf, #44e3ea);
+    }
+
+    #xi {
+        background: linear-gradient(to right, #44e3ea, #1cefff);
+    } */
 
     .piano {
         display: flex;
