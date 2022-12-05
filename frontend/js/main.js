@@ -85,7 +85,7 @@ class Main {
                 return;
             }
             $.ajax({
-                url: 'http://localhost:5000/predict',
+                url: 'http://localhost:5005/predict',
                 method: 'POST',
                 contentType: 'application/json',
                 data: JSON.stringify(inputs),

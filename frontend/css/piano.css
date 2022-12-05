@@ -1,8 +1,8 @@
 @charset "utf-8";
 
 div#piano {
-	margin: 0 auto;
-	width: 600px;
+	margin: 0;
+	width: 560px;
 	height: 420px;
 	position: relative;
 }
